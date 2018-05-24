@@ -1,0 +1,70 @@
+// Map math mixins:
+
+// Map math half will divide the given values by 2.
+//
+// Usage:
+//
+// mapMathHalf(
+//     laptop: 100px,
+//     mobile: 50px
+// );
+//
+// Output:
+//
+// (
+//     laptop: 50px,
+//     mobile: 20px
+// )
+@function mapMathHalf($map) {
+    $newMap: ();
+
+    @each $key, $value in $map {
+        $newMap: map-merge($newMap, ($key: ($value / 2)));
+    }
+
+    @return $newMap;
+}
+
+// Map math negative will invert the given values.
+//
+// Usage:
+//
+// mapMathNegative(
+//     laptop: 100px,
+//     mobile: 50px
+// );
+//
+// Output:
+//
+// (
+//     laptop: -100px,
+//     mobile: -50px
+// )
+@function mapMathNegative($map) {
+    $newMap: ();
+
+    @each $key, $value in $map {
+        $newMap: map-merge($newMap, ($key: (0 - $value)));
+    }
+
+    @return $newMap;
+}
+
+// Map math negative will invert the given values and divide by 2.
+//
+// Usage:
+//
+// mapMathNegative(
+//     laptop: 100px,
+//     mobile: 50px
+// );
+//
+// Output:
+//
+// (
+//     laptop: -50px,
+//     mobile: -25px
+// )
+@function mapMathHalfNegative($map) {
+    @return mapMathNegative(mapMathHalf($map));
+}
