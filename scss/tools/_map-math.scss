@@ -1,13 +1,38 @@
 // Map math mixins:
 
+// Map math will multiply the given list by the given multiplier.
+//
+// Usage:
+//
+// mapMath((
+//     laptop: 100px,
+//     mobile: 50px
+// ), 1.2);
+//
+// Output:
+//
+// (
+//     laptop: 120px,
+//     mobile: 60px
+// )
+@function mapMath($map, $multiplier) {
+    $newMap: ();
+
+    @each $key, $value in $map {
+        $newMap: map-merge($newMap, ($key: ($value * $multiplier)));
+    }
+
+    @return $newMap;
+}
+
 // Map math half will divide the given values by 2.
 //
 // Usage:
 //
-// mapMathHalf(
+// mapMathHalf((
 //     laptop: 100px,
 //     mobile: 50px
-// );
+// ));
 //
 // Output:
 //
@@ -16,23 +41,17 @@
 //     mobile: 20px
 // )
 @function mapMathHalf($map) {
-    $newMap: ();
-
-    @each $key, $value in $map {
-        $newMap: map-merge($newMap, ($key: ($value / 2)));
-    }
-
-    @return $newMap;
+    @return mapMath($map, 0.5);
 }
 
 // Map math negative will invert the given values.
 //
 // Usage:
 //
-// mapMathNegative(
+// mapMathNegative((
 //     laptop: 100px,
 //     mobile: 50px
-// );
+// ));
 //
 // Output:
 //
@@ -41,13 +60,7 @@
 //     mobile: -50px
 // )
 @function mapMathNegative($map) {
-    $newMap: ();
-
-    @each $key, $value in $map {
-        $newMap: map-merge($newMap, ($key: (0 - $value)));
-    }
-
-    @return $newMap;
+    @return mapMath($map, -1);
 }
 
 // Map math negative will invert the given values and divide by 2.
@@ -66,5 +79,5 @@
 //     mobile: -25px
 // )
 @function mapMathHalfNegative($map) {
-    @return mapMathNegative(mapMathHalf($map));
+    @return mapMath($map, -0.5);
 }
